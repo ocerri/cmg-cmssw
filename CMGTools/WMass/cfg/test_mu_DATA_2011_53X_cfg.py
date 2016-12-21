@@ -40,9 +40,9 @@ data_Run2011AB_12Oct2013_v1.splitFactor = 2000
 selectedComponents = [data_Run2011A_12Oct2013_v1,data_Run2011B_12Oct2013_v1]
 
 # # TEST
-# selectedComponents = [data_Run2011A_12Oct2013_v1]
-# data_Run2011A_12Oct2013_v1.files = data_Run2011A_12Oct2013_v1.files[:10]
-# data_Run2011A_12Oct2013_v1.splitFactor = 1
+selectedComponents = [data_Run2011A_12Oct2013_v1]
+data_Run2011A_12Oct2013_v1.files = data_Run2011A_12Oct2013_v1.files[:10]
+data_Run2011A_12Oct2013_v1.splitFactor = 1
 
 config = cfg.Config( components = selectedComponents,
                      sequence = sequence )

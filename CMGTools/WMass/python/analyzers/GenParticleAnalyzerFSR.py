@@ -1,4 +1,4 @@
-import operator 
+import operator
 from CMGTools.RootTools.fwlite.Analyzer import Analyzer
 from CMGTools.RootTools.statistics.Counter import Counter, Counters
 from CMGTools.RootTools.fwlite.AutoHandle import AutoHandle
@@ -10,7 +10,7 @@ class GenParticleAnalyzerFSR( Analyzer ):
     '''Base analyzer for GenParticle analysis.
     Puts the collection of GenParticles in the event, as event.genParticles.
     Prints the list if verbose is True in the configuration.'''
-    
+
 
     def declareHandles(self):
         '''Reads genParticlesPruned.'''
@@ -21,20 +21,20 @@ class GenParticleAnalyzerFSR( Analyzer ):
             )
 
     def beginLoop(self):
-        super(GenParticleAnalyzerFSR,self).beginLoop()        
+        super(GenParticleAnalyzerFSR,self).beginLoop()
         self.fsrWeightAlgo = FSRWeightAlgo()
 
     def buildGenParticles(self, cmgGenParticles, event):
         '''Creates python GenParticles from the di-leptons read from the disk.
         to be overloaded if needed.'''
         return map( GenParticle, cmgGenParticles )
-    
-        
+
+
     def process(self, iEvent, event):
         self.readCollections( iEvent )
         if not self.cfg_comp.isMC:
             return True
-        
+
         event.genParticles = self.buildGenParticles( self.mchandles['genpart'].product(), event )
 
         self.fsrWeightAlgo.clear()
@@ -43,10 +43,9 @@ class GenParticleAnalyzerFSR( Analyzer ):
           #      print gen.pdgId(), gen.status(), gen.pt()
             self.fsrWeightAlgo.addGenParticle(gen)
         event.fsrWeight = self.fsrWeightAlgo.weight()
-        
+
         if self.cfg_ana.verbose:
             print self.name
             print printOut(event.genParticles)
-        
-        return True
 
+        return True

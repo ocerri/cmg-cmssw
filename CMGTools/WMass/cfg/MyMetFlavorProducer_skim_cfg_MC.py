@@ -32,7 +32,7 @@ numberOfFilesToProcess = -1
 # process.setName_('H2TAUTAU')
 
 
-dataset_user = 'cmgtools' 
+dataset_user = 'cmgtools'
 # dataset_name = '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM/V5_B/PAT_CMG_V5_8_0'
 # dataset_name = '/DoubleMu/Run2011B-16Jan2012-v1/AOD/V5/PAT_CMG_V5_6_0_B'
 # dataset_name = '/DYJetsToLL_TuneZ2_M-50_7TeV-madgraph-tauola/Fall11-PU_S6_START44_V9B-v1/AODSIM/V5_B/PAT_CMG_V5_6_0_B'
@@ -57,7 +57,7 @@ print '.. and so on.'
 
 
 ###ProductionTaskHook$$$
-    
+
 process.load('CMGTools.Common.skims.cmgDiMuonSel_cfi')
 process.load('CMGTools.Common.skims.cmgDiMuonCount_cfi')
 
@@ -68,9 +68,9 @@ process.cmgDiMuonCount.minNumber = 1
 
 from CMGTools.WMass.myMetFlavors_cff import *
 # COMMA SEPARATED AMONG "X,h,e,mu,gamma,h0,hHF,egammaHF"
-process.myPFmet         =  myMetFlavor.clone(  
+process.myPFmet         =  myMetFlavor.clone(
                                             MetFlavor = cms.int32(0),
-                                            candFlavor      = cms.string(""), 
+                                            candFlavor      = cms.string(""),
                                             candPtMin       = cms.double(0.0),
                                             candEtaMin      = cms.double(-100.0),
                                             candEtaMax      = cms.double(100.0),
@@ -78,20 +78,20 @@ process.myPFmet         =  myMetFlavor.clone(
 myMetEtaCuts=[-5.0,-3.0,-2.4,-2.1,-1.4,1.4,2.1,2.4,3.0,5.0]
 myMetPtCuts=[0.0,0.5,1.0,1.5,2.0]
 #INCLUSIVE
-process.mygammaPFmet         =  process.myPFmet.clone(  
-                                                  candFlavor      = cms.string("gamma"), 
+process.mygammaPFmet         =  process.myPFmet.clone(
+                                                  candFlavor      = cms.string("gamma"),
                                             )
-process.myh0PFmet         =  process.myPFmet.clone(  
-                                                  candFlavor      = cms.string("h0"), 
+process.myh0PFmet         =  process.myPFmet.clone(
+                                                  candFlavor      = cms.string("h0"),
                                             )
-process.myhegammaHFPFmet         =  process.myPFmet.clone(  
-                                                  candFlavor      = cms.string("h_HF,egamma_HF"), 
+process.myhegammaHFPFmet         =  process.myPFmet.clone(
+                                                  candFlavor      = cms.string("h_HF,egamma_HF"),
                                             )
-process.mytkmethemuPFmet         =  process.myPFmet.clone(  
+process.mytkmethemuPFmet         =  process.myPFmet.clone(
                                                   MetFlavor = cms.int32(1),
-                                                  candFlavor      = cms.string("h,e,mu"), 
+                                                  candFlavor      = cms.string("h,e,mu"),
                                             )
-                                           
+
 
 process.p = cms.Path( (process.cmgDiMuonSel +
                       process.cmgDiMuonCount )

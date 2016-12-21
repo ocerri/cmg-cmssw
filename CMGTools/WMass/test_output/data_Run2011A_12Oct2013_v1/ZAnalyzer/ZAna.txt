@@ -1,0 +1,14 @@
+Counter ZAna :
+	 Z all triggered events                        4467 	 1.00 	 1.0000
+	 Z >= 2 lepton                                 2035 	 0.46 	 0.4556
+	 Z at least 1 lep trig matched                 1254 	 0.62 	 0.2807
+	 Z good muon pair found                        1254 	 1.00 	 0.2807
+	 Z non trg leading extra muon pT < 10 GeV         0 	 0.00 	 0.0000
+	 Z Inv Mass>50                                 1004 	 -1.00 	 0.2248
+	 Z pos Mu is MuIsTightAndIso                    597 	 0.59 	 0.1336
+	 Z pos Mu_eta<2.1 && Mu_pt>30*MZ/MW             318 	 0.53 	 0.0712
+	 Z neg Mu_eta<2.4 && Mu_pt>10                   136 	 0.43 	 0.0304
+	 Z pfmet>25*MZ/MW                               121 	 0.89 	 0.0271
+	 Z pt<20*MZ/MW                                   65 	 0.54 	 0.0146
+	 Z Jet_leading_pt<30                              0 	 0.00 	 0.0000
+
