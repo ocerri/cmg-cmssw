@@ -1,121 +1,81 @@
 from CMGTools.RootTools.analyzers.TreeAnalyzerNumpy import TreeAnalyzerNumpy
 from ntupleFunctions import *
 
-class RecoilTreeProducer(TreeAnalyzerNumpy):
+class WRecoilTreeProducer(TreeAnalyzerNumpy):
 
     def __init__(self, cfg_ana, cfg_comp, looperName):
-        super(RecoilTreeProducer, self).__init__(cfg_ana, cfg_comp, looperName)
+        super(WRecoilTreeProducer, self).__init__(cfg_ana, cfg_comp, looperName)
 
     def declareVariables(self):
-        aux_tree = self.tree
+        if not hasattr(self.cfg_ana,"recoil_info"):
+            self.cfg_ana.recoil_info = True
 
-        tree_variables = [
-            ("evt_number", "l"),
-            ("muon_pt", float),
-            ("muon_pz", float),
-            ("muon_eta", float),
-            ("muon_charge", float),
+        if not hasattr(self.cfg_ana, "upar_uperp"):
+            self.cfg_ana.upar_uperp = True
 
-            ("nu_pt", float),
-            ("nu_eta", float),
-            ("h", float),
-            ("h_nt",float),
-            ("h_tk", float),
-            # ("met", float),
-            # ("w_pt", float),
-            # ("w_pl", float),
-            # ("w_cos_theta", float),
-            # ("w_eta", float),
-            # ("w_rapidity", float),
-            # ("m_W", float),
-            # ("mt_munu", float),
-            # ("mt_munu_ptW0", float),
-            # ("mt2_muon", float),
-            # ("mt2_recoil", float),
-            # ("mt2_recoil_1o", float),
-            # ("mt2_recoiltk", float),
-            # ("mt2_recoiltk_1o", float),
-            # ("mt2_munu", float),
-            # ("R", float),
-            # ("T", float),
-            # ("RplusT", float),
+        T = self.tree
 
-            ("u_par", float),
-            ("u_perp", float),
-            # ("hpt", float),
-            ("u_lpar", float),
-            ("u_lperp", float),
-            ("recoil_pl", float),
-            ("recoil_m", float),
-            ("recoil_eta_mean", float),
-            ("recoil_eta_sum", float),
-            ("recoil_sum_et", float),
-            ("recoil_sum_et2", float),
-            ("leading_pt", float),
-            ("leading12_pt_scalar_sum", float),
-            ("leading12_pt_vector_sum", float),
-            ("leading_eta", float),
+        var(T, "n_evt", int) ##Vedere come fanno in altre analisi
+        var(T, "n_vtx", int)
 
-            ("n_charged", int),
-            ("u_par_tk", float),
-            ("u_perp_tk", float),
-            # ("hpt_tk", float),
-            ("u_lpar_tk", float),
-            ("u_lperp_tk", float),
-            ("recoil_pl_tk", float),
-            ("recoil_m_tk", float),
-            ("recoil_eta_mean_tk", float),
-            ("recoil_eta_sum_tk", float),
-            ("recoil_sum_et_tk", float),
-            ("recoil_sum_et2_tk", float),
-            ("leading_pt_tk", float),
-            ("leading12_pt_scalar_sum_tk", float),
-            ("leading12_pt_vector_sum_tk", float),
-            ("leading_eta_tk", float),
+        bookMuonZ(T, "muon")
 
+        if self.cfg_comp.isMC:
+            bookVB(T, "Wgen")
+            bookMuonZgen(T, "muon_gen")
+            # bookMuonZgen(T, "nu_gen")
 
-            ("n_neutral", int),
-            ("u_par_nt", float),
-            ("u_perp_nt", float),
-            # ("hpt_nt", float),
-            ("u_lpar_nt", float),
-            ("u_lperp_nt", float),
-            ("recoil_pl_nt", float),
-            ("recoil_m_nt", float),
-            ("recoil_eta_mean_nt", float),
-            ("recoil_eta_sum_nt", float),
-            ("recoil_sum_et_nt", float),
-            ("recoil_sum_et2_nt", float),
-            ("leading_pt_nt", float),
-            ("leading12_pt_scalar_sum_nt", float),
-            ("leading12_pt_vector_sum_nt", float),
-            ("leading_eta_nt", float),
+            bookMuonZgen(T, "muon_genFS")
+            var(T, "has_FSR", int)
 
-            ("c1_tk", float),
-            ("c2_tk", float),
-            ("d1_tk", float),
-            ("d2_tk", float),
-            ("e1_tk", float),
-            ("e2_tk", float),
-            ("c1_mu_tk", float),
-            ("c2_mu_tk", float),
+        if  self.cfg_ana.recoil_info == True:
+            bookRecoilInfo(T, "tk")
+            bookRecoilInfo(T, "tk_not_pv")
+            bookRecoilInfo(T, "nt")
+            if self.cfg_comp.isMC:
+                bookCorrectionCoeff(T)
 
-        ]
+        if self.cfg_ana.upar_uperp == True:
+            bookUparUperp(T, "tk")
+            bookUparUperp(T, "tk_not_pv")
+            bookUparUperp(T, "nt")
+            if self.cfg_comp.isMC:
+                bookUparUperp(T, "MC")
 
-        for variable_name, variable_type in tree_variables:
-            var(aux_tree, variable_name, variable_type)
 
     def process(self, iEvent, event):
+        T = self.tree
+        T.reset()
 
-        aux_tree = self.tree
-        aux_tree.reset()
+        # fill(T, "evt_number", int(iEvent))
+        fill(T, 'n_evt', event.eventId)
+        fill(T, "n_vtx", len(event.goodVertices))
 
-        fill(aux_tree, "evt_number", iEvent)
+        fillMuonZ(T, "muon", event.muon_W)
 
-        fill(aux_tree, "muon_pt", event.muons[0].pt())
-        fill(aux_tree, "muon_pz", event.muons[0].p4().Pz())
-        fill(aux_tree, "muon_eta", event.muons[0].eta())
-        fill(aux_tree, "muon_charge", event.muons[0].charge())
-        fill(aux_tree, "h_pt_tk", event.recoil_p4_tk.Pt())
+        if self.cfg_comp.isMC:
+            fillVB(T, event, "Wgen")
 
-        aux_tree.tree.Fill()
+            fillMuonZgen(T, "muon_gen", event.muon_gen_HS)
+            # fillMuonZgen(T, "nu_gen", event.nu_gen_HS)
+
+            fillMuonZgen(T, "muon_genFS", event.muons_gen_FS[0])
+            fill(T, "has_FSR", event.has_FSR)
+
+        if  self.cfg_ana.recoil_info == True:
+            fillRecoilInfo(T, event, "tk")
+            fillRecoilInfo(T, event, "tk_not_pv")
+            fillRecoilInfo(T, event, "nt")
+            if self.cfg_comp.isMC:
+                fillCorrectionCoeff(T, event)
+
+        if self.cfg_ana.upar_uperp == True:
+            fillUparUperp(T, event, "tk")
+            fillUparUperp(T, event, "tk_not_pv")
+            fillUparUperp(T, event, "nt")
+            if self.cfg_comp.isMC:
+                fillUparUperp(T, event, "MC")
+
+
+
+        T.tree.Fill()

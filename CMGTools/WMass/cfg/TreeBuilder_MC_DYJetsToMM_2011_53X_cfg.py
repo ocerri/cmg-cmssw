@@ -40,15 +40,19 @@ selection_analyzers = cfg.Analyzer(
 
 recoil_analyzer = cfg.Analyzer(
     'RecoilAnalyzer',
+    event_type = "Z"
     )
 
 hardest_subprocess_analyzer = cfg.Analyzer(
-    'HardestSubprocesAnalyzer'
+    'HardestSubprocessAnalyzer',
+    event_type = "Z"
     )
 
 tree_producer = cfg.Analyzer(
     "ZRecoilTreeProducer",
-    verbose = False
+    verbose = False,
+    # recoil_info = False
+    # upar_uperp = False
     )
 
 
@@ -59,7 +63,7 @@ sequence = cfg.Sequence([
     selection_analyzers,
     # particle_loader2,
     recoil_analyzer,
-    # hardest_subprocess_analyzer,
+    hardest_subprocess_analyzer,
     tree_producer,
    ])
 
@@ -68,7 +72,7 @@ from CMGTools.H2TauTau.proto.samples.getFiles import getFiles
 
 DYJets.files = getFiles('/DYToMuMu_M-50To250_ew-BMNNP_7TeV-powheg/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0_newLHEweights', 'wmass_group', '.*root') # 790
 
-DYJets.files = DYJets.files[:1]
+DYJets.files = DYJets.files[:15]
 
 DYJets.triggers = triggers_mu
 # DYJets.splitFactor = 900

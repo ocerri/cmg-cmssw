@@ -1,0 +1,118 @@
+starting loop at event 0 to process 100000 events.
+MCComponent: WPlus1
+	addWeight      :   1.0
+	dataset_entries:   0
+	effCorrFactor  :   1
+	files          :   ['root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_10.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_100.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1000.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1001.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1002.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1003.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1004.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1005.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1006.root']
+	intLumi        :   1.0
+	isData         :   False
+	isEmbed        :   False
+	isMC           :   True
+	nGenEvents     :   1
+	splitFactor    :   1
+	triggers       :   ['HLT_IsoMu24_v*', 'HLT_IsoMu24_eta2p1_v*']
+	xSection       :   31314.0
+beginLoop JSONAnalyzer
+beginLoop triggerBitFilter
+beginLoop VertexAnalyzer
+beginLoop ParticlesLoader
+beginLoop WMassEventSelection
+beginLoop HardestSubprocessAnalyzer
+beginLoop RecoilAnalyzer
+beginLoop RecoilCorrectionCoefficients
+beginLoop WRecoilTreeProducer
+
+Analyzer: JSONAnalyzer
+	verbose        :   False
+Counter JSON :
+	 All Lumis                                        0 	 -1.00 	 -1.0000
+	 Passed Lumis                                     0 	 -1.00 	 -1.0000
+
+
+
+
+Analyzer: triggerBitFilter
+	verbose        :   False
+
+
+
+
+Analyzer: VertexAnalyzer
+	allVertices    :   slimmedPrimaryVertices
+	fixedWeight    :   1
+	goodVertices   :   slimmedPrimaryVertices
+	keepFailingEvents:   False
+	verbose        :   False
+	vertexWeight   :   None
+Counter GoodVertex :
+	 All Events                                   43190 	 1.00 	 1.0000
+	 Events With Good Vertex                      43183 	 1.00 	 0.9998
+
+Average vertexWeight   :   1.0000 +-   0.0000
+
+
+Analyzer: ParticlesLoader
+	set_type       :   all
+	verbose        :   False
+
+
+
+
+Analyzer: WMassEventSelection
+	event_type     :   W
+	mass_region    :   [70, 110]
+	met_thr        :   20
+	met_type       :   pfmet
+	muon_max_dz    :   0.1
+	pt_muon_thr    :   20
+	verbose        :   False
+Counter events :
+	 All events                                       0 	 -1.00 	 -1.0000
+
+
+
+
+Analyzer: HardestSubprocessAnalyzer
+	event_type     :   W
+	verbose        :   True
+
+
+
+
+Analyzer: RecoilAnalyzer
+	event_type     :   W
+	verbose        :   False
+
+
+
+
+Analyzer: RecoilCorrectionCoefficients
+	event_type     :   W
+	verbose        :   False
+
+
+
+
+Analyzer: WRecoilTreeProducer
+	recoil_info    :   True
+	upar_uperp     :   True
+	verbose        :   False
+
+
+
+
+MCComponent: WPlus1
+	addWeight      :   1.0
+	dataset_entries:   0
+	effCorrFactor  :   1
+	files          :   ['root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_10.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_100.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1000.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1001.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1002.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1003.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1004.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1005.root', 'root://eoscms//eos/cms/store/cmst3/user/cmgtools/CMG/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0/cmgTuple_1006.root']
+	intLumi        :   1.0
+	isData         :   False
+	isEmbed        :   False
+	isMC           :   True
+	nGenEvents     :   1
+	splitFactor    :   1
+	triggers       :   ['HLT_IsoMu24_v*', 'HLT_IsoMu24_eta2p1_v*']
+	xSection       :   31314.0
+
+number of events processed: 100000
