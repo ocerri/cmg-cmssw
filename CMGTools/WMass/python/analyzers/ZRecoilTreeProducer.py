@@ -15,11 +15,12 @@ class ZRecoilTreeProducer(TreeAnalyzerNumpy):
 
         T = self.tree
 
-        # var(T, "evt_number", int) ##Vedere come fanno in altre analisi
+        var(T, "n_evt", int) ##Vedere come fanno in altre analisi
+        var(T, "n_vtx", int)
 
         bookMuonZ(T, "pos_muon")
         bookMuonZ(T, "neg_muon")
-        bookVB("Zreco")
+        bookVB(T,"Zreco")
 
         if self.cfg_comp.isMC:
             bookVB(T, "Zgen")
@@ -33,6 +34,8 @@ class ZRecoilTreeProducer(TreeAnalyzerNumpy):
             bookRecoilInfo(T, "tk")
             bookRecoilInfo(T, "tk_not_pv")
             bookRecoilInfo(T, "nt")
+            if self.cfg_comp.isMC:
+                bookCorrectionCoeff(T)
 
         if self.cfg_ana.upar_uperp == True:
             bookUparUperp(T, "pos_tk")
@@ -41,19 +44,23 @@ class ZRecoilTreeProducer(TreeAnalyzerNumpy):
             bookUparUperp(T, "neg_tk_not_pv")
             bookUparUperp(T, "pos_nt")
             bookUparUperp(T, "neg_nt")
+            bookUparUperp(T, "pos_Z")
+            bookUparUperp(T, "neg_Z")
 
 
     def process(self, iEvent, event):
         T = self.tree
         T.reset()
 
+        fill(T, 'n_evt', event.eventId)
+        fill(T, "n_vtx", len(event.goodVertices))
         # fill(T, "evt_number", int(iEvent))
 
         event.muons = sorted(event.muons, key=lambda x: x.charge(), reverse=True)
         fillMuonZ(T, "pos_muon", event.muons[0])
         fillMuonZ(T, "neg_muon", event.muons[1])
 
-        fillVB(T, event, "Zreco", event.Zreco_p4)
+        fillVB(T, event, "Zreco", p4 = event.Zreco_p4)
 
         if self.cfg_comp.isMC:
             fillVB(T, event, "Zgen")
@@ -71,6 +78,8 @@ class ZRecoilTreeProducer(TreeAnalyzerNumpy):
             fillRecoilInfo(T, event, "tk")
             fillRecoilInfo(T, event, "tk_not_pv")
             fillRecoilInfo(T, event, "nt")
+            if self.cfg_comp.isMC:
+                fillCorrectionCoeff(T, event)
 
         if self.cfg_ana.upar_uperp == True:
             fillUparUperp(T, event, "pos_tk")
@@ -79,6 +88,8 @@ class ZRecoilTreeProducer(TreeAnalyzerNumpy):
             fillUparUperp(T, event, "neg_tk_not_pv")
             fillUparUperp(T, event, "pos_nt")
             fillUparUperp(T, event, "neg_nt")
+            fillUparUperp(T, event, "pos_Z")
+            fillUparUperp(T, event, "neg_Z")
 
 
 

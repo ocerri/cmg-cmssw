@@ -103,7 +103,7 @@ class HardestSubprocessAnalyzer(Analyzer):
                         # Usually there are no neutrinos in the event record....
 
 
-                #Leptons from the hardest subrocess has produced by the Z boson
+                #Leptons from the hardest subrocess has produced by the W boson
                 if event.Wgen.numberOfDaughters() ==2:
                     if abs(event.Wgen.daughter(0).pdgId()) == 13:
                         event.muon_gen_HS = event.Wgen.daughter(0)

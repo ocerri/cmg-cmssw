@@ -26,17 +26,19 @@ particle_loader1 = cfg.Analyzer(
     "ParticlesLoader",
     # set_type = "light"
     set_type = "all",
-    pileUpInfo = False
+    pileUpInfo = False,
+    # MaxNumberOfEvents = 10,
+    # StartNumberOfEvents = 0
     )
 
 selection_analyzers = cfg.Analyzer(
     'WMassEventSelection',
-    event_type = "Z",
+    event_type = "W",
     pt_muon_thr = 20,
     mass_region = [70, 110],
     met_type = "pfmet",
     met_thr = 20,  #GeV
-    muon_max_dz = 0.1 #cm
+    muon_max_dz = 0.1, #cm
     )
 
 # particle_loader2 = cfg.Analyzer(
@@ -46,25 +48,27 @@ selection_analyzers = cfg.Analyzer(
 
 recoil_analyzer = cfg.Analyzer(
     'RecoilAnalyzer',
-    event_type = "Z",
+    event_type = "W",
     tracks_max_dz = 0.1 #cm
     )
 
 hardest_subprocess_analyzer = cfg.Analyzer(
     'HardestSubprocessAnalyzer',
-    event_type = "Z"
+    event_type = "W",
+    verbose = "True"
     )
 
 recoil_correction_coefficients_analyzer = cfg.Analyzer(
     "RecoilCorrectionCoefficients",
-    event_type = "Z"
+    event_type = "W"
     )
 
 tree_producer = cfg.Analyzer(
-    "ZRecoilTreeProducer",
-    verbose = False,
+    "AllParticleTree",
+    # verbose = False,
     # recoil_info = False
     # upar_uperp = False
+    # jet_info = False
     )
 
 
@@ -76,23 +80,33 @@ sequence = cfg.Sequence([
     selection_analyzers,
     # particle_loader2,
     hardest_subprocess_analyzer,
-    recoil_analyzer,
-    recoil_correction_coefficients_analyzer,
+    # recoil_analyzer,
+    # recoil_correction_coefficients_analyzer,
     tree_producer,
    ])
 
-from CMGTools.H2TauTau.proto.samples.ewk import DYJets
+from CMGTools.H2TauTau.proto.samples.ewk import WJets
 from CMGTools.H2TauTau.proto.samples.getFiles import getFiles
 
-DYJets.files = getFiles('/DYToMuMu_M-50To250_ew-BMNNP_7TeV-powheg/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0_newLHEweights', 'wmass_group', '.*root') # 790
+WJetsPlus = deepcopy(WJets)
+WJetsPlus.files = getFiles('/WplusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0', 'cmgtools', '.*root')
+# 792 files
+# 23k eventi per file
+WJetsPlus.files = WJetsPlus.files[:50]
+WJetsPlus.triggers = triggers_mu
+WJetsPlus.splitFactor = 50 #900
+WJetsPlus.name = 'WPlus1'
 
-DYJets.files = DYJets.files[:10]
 
-DYJets.triggers = triggers_mu
-# DYJets.splitFactor = 900
-DYJets.splitFactor = 1
+# WJetsMinus = deepcopy(WJetsPlus)
+# WJetsMinus.name = 'WMinus1'
+# WJetsMinus.files = getFiles('/WminusToMuNu_M-50To250_ew-BMNNP_7TeV-powheg-pythia8/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0', 'cmgtools', '.*root') # 2106
+# WJetsMinus.files = WJetsMinus.files[:1]
 
-selectedComponents = [DYJets]
+
+
+selectedComponents = [WJetsPlus]
+
 
 config = cfg.Config(components = selectedComponents, sequence = sequence)
 

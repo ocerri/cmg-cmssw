@@ -1,7 +1,6 @@
 import CMGTools.RootTools.fwlite.Config as cfg
 from CMGTools.RootTools.fwlite.Config import printComps
 from CMGTools.WMass.triggerMap import triggers_mu
-from copy import deepcopy
 
 json_analyzer = cfg.Analyzer(
     'JSONAnalyzer',
@@ -36,7 +35,7 @@ selection_analyzers = cfg.Analyzer(
     mass_region = [70, 110],
     met_type = "pfmet",
     met_thr = 20,  #GeV
-    muon_max_dz = 0.1 #cm
+    muon_max_dz = 0.1, #cm
     )
 
 # particle_loader2 = cfg.Analyzer(
@@ -46,17 +45,11 @@ selection_analyzers = cfg.Analyzer(
 
 recoil_analyzer = cfg.Analyzer(
     'RecoilAnalyzer',
-    event_type = "Z",
-    tracks_max_dz = 0.1 #cm
+    event_type = "Z"
     )
 
 hardest_subprocess_analyzer = cfg.Analyzer(
     'HardestSubprocessAnalyzer',
-    event_type = "Z"
-    )
-
-recoil_correction_coefficients_analyzer = cfg.Analyzer(
-    "RecoilCorrectionCoefficients",
     event_type = "Z"
     )
 
@@ -77,23 +70,26 @@ sequence = cfg.Sequence([
     # particle_loader2,
     hardest_subprocess_analyzer,
     recoil_analyzer,
-    recoil_correction_coefficients_analyzer,
     tree_producer,
    ])
 
-from CMGTools.H2TauTau.proto.samples.ewk import DYJets
+
+
 from CMGTools.H2TauTau.proto.samples.getFiles import getFiles
 
-DYJets.files = getFiles('/DYToMuMu_M-50To250_ew-BMNNP_7TeV-powheg/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0_newLHEweights', 'wmass_group', '.*root') # 790
+data_Run2011A_12Oct2013_v1 = cfg.DataComponent(
+    name = 'data_Run2011A_12Oct2013_v1',
+    files = getFiles('/SingleMu/Run2011A-12Oct2013-v1/AOD/PAT_CMG_V5_18_0', 'cmgtools', '.*root'),
+    intLumi =  4749.90,
+    triggers = triggers_mu,
+    json = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions11/7TeV/Reprocessing/Cert_160404-180252_7TeV_ReRecoNov08_Collisions11_JSON_v2.txt'
+    )
 
-DYJets.files = DYJets.files[:10]
+selectedComponents = [data_Run2011A_12Oct2013_v1]
+data_Run2011A_12Oct2013_v1.files = data_Run2011A_12Oct2013_v1.files[:100]
+data_Run2011A_12Oct2013_v1.splitFactor = 1
 
-DYJets.triggers = triggers_mu
-# DYJets.splitFactor = 900
-DYJets.splitFactor = 1
-
-selectedComponents = [DYJets]
-
-config = cfg.Config(components = selectedComponents, sequence = sequence)
+config = cfg.Config(components=selectedComponents,
+                    sequence=sequence)
 
 printComps(config.components, True)

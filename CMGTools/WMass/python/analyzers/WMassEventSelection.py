@@ -14,7 +14,7 @@ class WMassEventSelection(Analyzer):
         self.counters.counter('events').register('All events')
 
         if not hasattr(self.cfg_ana,"muon_max_dz"):
-            self.cfg_ana.muon_max_dz = 0.1
+            self.cfg_ana.muon_max_dz = 0.05
 
         if not hasattr(self.cfg_ana, "mass_region"):
             self.cfg_ana.mass_region = [60,110]

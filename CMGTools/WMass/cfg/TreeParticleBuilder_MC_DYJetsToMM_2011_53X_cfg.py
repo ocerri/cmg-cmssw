@@ -1,11 +1,6 @@
 import CMGTools.RootTools.fwlite.Config as cfg
 from CMGTools.RootTools.fwlite.Config import printComps
 from CMGTools.WMass.triggerMap import triggers_mu
-from copy import deepcopy
-
-json_analyzer = cfg.Analyzer(
-    'JSONAnalyzer',
-    )
 
 trigger_bit_filter = cfg.Analyzer(
      'triggerBitFilter',
@@ -26,59 +21,18 @@ particle_loader1 = cfg.Analyzer(
     "ParticlesLoader",
     # set_type = "light"
     set_type = "all",
-    pileUpInfo = False
+    pileUpInfo = True
     )
 
-selection_analyzers = cfg.Analyzer(
-    'WMassEventSelection',
-    event_type = "Z",
-    pt_muon_thr = 20,
-    mass_region = [70, 110],
-    met_type = "pfmet",
-    met_thr = 20,  #GeV
-    muon_max_dz = 0.1 #cm
+particle_tree_producer = cfg.Analyzer(
+    "ParticleTreeProducer",
     )
-
-# particle_loader2 = cfg.Analyzer(
-#     "ParticlesLoader",
-#     set_type = "add_particles_list"
-#     )
-
-recoil_analyzer = cfg.Analyzer(
-    'RecoilAnalyzer',
-    event_type = "Z",
-    tracks_max_dz = 0.1 #cm
-    )
-
-hardest_subprocess_analyzer = cfg.Analyzer(
-    'HardestSubprocessAnalyzer',
-    event_type = "Z"
-    )
-
-recoil_correction_coefficients_analyzer = cfg.Analyzer(
-    "RecoilCorrectionCoefficients",
-    event_type = "Z"
-    )
-
-tree_producer = cfg.Analyzer(
-    "ZRecoilTreeProducer",
-    verbose = False,
-    # recoil_info = False
-    # upar_uperp = False
-    )
-
 
 sequence = cfg.Sequence([
-    json_analyzer,
     trigger_bit_filter,
     vertex_analyzer,
     particle_loader1,
-    selection_analyzers,
-    # particle_loader2,
-    hardest_subprocess_analyzer,
-    recoil_analyzer,
-    recoil_correction_coefficients_analyzer,
-    tree_producer,
+    particle_tree_producer,
    ])
 
 from CMGTools.H2TauTau.proto.samples.ewk import DYJets
@@ -86,7 +40,7 @@ from CMGTools.H2TauTau.proto.samples.getFiles import getFiles
 
 DYJets.files = getFiles('/DYToMuMu_M-50To250_ew-BMNNP_7TeV-powheg/Summer11LegDR-PU_S13_START53_LV6-v1/AODSIM/V5_B/PAT_CMG_V5_18_0_newLHEweights', 'wmass_group', '.*root') # 790
 
-DYJets.files = DYJets.files[:10]
+DYJets.files = DYJets.files[:15]
 
 DYJets.triggers = triggers_mu
 # DYJets.splitFactor = 900
